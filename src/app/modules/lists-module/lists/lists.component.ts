@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { StoreService } from '../../../store.service';
+import { StoreService } from '../../../services/store/store.service';
 import { ListInterface } from '../list';
 
 @Component({
@@ -17,5 +17,17 @@ export class ListsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.lists$ = this.storeService.getLists$();
+  }
+
+  public onCreateList($event: string): void {
+    this.storeService.createList$({ name: $event });
+  }
+
+  public onDeleteList($event: ListInterface): void {
+    this.storeService.deleteList$($event);
+  }
+
+  public onEditList($event: { listId: number, name: string }): void {
+    this.storeService.putList$($event.listId, { name: $event.name });
   }
 }
